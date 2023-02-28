@@ -19,10 +19,22 @@
 
 from sys import maxsize, version_info
 from ctypes import *
-from ctypes.util import find_library
+import os
+from sys import platform
 
-fomalibpath = find_library('foma')
-foma = cdll.LoadLibrary(fomalibpath)
+
+def __get_foma_library():
+    dir_path, _ = os.path.split(__loader__.path)
+    if platform == 'win32':
+        return os.path.join(dir_path, 'c_libs/windows/libfoma.dll')
+    elif platform == 'linux':
+        return os.path.join(dir_path, 'c_libs/linux/libfoma.so.0.10.0')
+    else:
+        raise RuntimeError(f'Cannot find foma c library for {platform} platform')
+
+
+fomalibpath = __get_foma_library()
+foma = CDLL(fomalibpath)
 
 
 class FSTstruct(Structure):

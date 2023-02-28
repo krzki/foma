@@ -2,7 +2,7 @@
 .tox
 
 # exclude libfoma c library
-!src/c_libs/*
+!src/foma_with_lib/c_libs/**
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
